@@ -1,6 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class User implements UserInterface{
     private String userName;
-    private TaskInterface[] task=new TaskInterface[5];
+    List<TaskInterface> task=new ArrayList();
     public User()
     {
 
@@ -19,11 +22,8 @@ public class User implements UserInterface{
         this.userName = userName;
     }
 
-    public TaskInterface[] getTask() {
+    public List<TaskInterface> getTask() {
         return task;
     }
 
-    public void setTask(TaskInterface[] task) {
-        this.task = task;
-    }
 }

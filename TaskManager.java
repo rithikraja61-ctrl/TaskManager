@@ -17,16 +17,9 @@ public class TaskManager implements TaskManagerInterface{
     }
 
     public void add() {
-        boolean isNotFull = false;// check task array have space  [a,a,a,n]=true
-        for (int i = 0; i < currentUser.getTask().length; i++) {
-           if(currentUser.getTask()[i]==null) {
-                isNotFull = true;
-                break;
-            }
-        }
+
         boolean exit = false;// exit when user what to leave
         while (!exit) {
-        if (isNotFull) {
                 String addChoice = null;
                 Task task = null;
                 System.out.println("Add Task enter 'exit' for Exit");
@@ -42,16 +35,10 @@ public class TaskManager implements TaskManagerInterface{
                             throw new Exception();
                         }
                         task = new Task(addChoice);
-                        for (int i = 0; i < currentUser.getTask().length; i++) {
-                            if (currentUser.getTask()[i] == null) {
-                                currentUser.getTask()[i] = task;
+
+                                currentUser.getTask().add(task);
                                 System.out.println("Title added Successfully");
-                                break;
-                            }
-                        }
 
-
-                    if(task!=null) {
                         boolean validInput = false;
                         while (!validInput) {
                             System.out.println("Want to Create Description enter (yes/no).Default is Empty");
@@ -76,7 +63,6 @@ public class TaskManager implements TaskManagerInterface{
                                 System.out.println("Enter A valid input (yes/no) only");
                             }
                         }
-                    }
 
                 }
 
@@ -85,16 +71,10 @@ public class TaskManager implements TaskManagerInterface{
                     exit=true;
                }
 
-        }else{
-            System.out.println("Cant Add Task Because Task Adding Limit Reached");
         }
 
 
         }
-
-        }
-
-
 
   public  void update() {
         boolean exit = false;
@@ -112,15 +92,13 @@ public class TaskManager implements TaskManagerInterface{
                         System.out.println("Select Task");
                         updateChoice = sc.nextLine();
                         Integer ch = new Integer(updateChoice);
-                        if (ch - 1 > currentUser.getTask().length) {
-                            throw new Exception();
-                        } else if (currentUser.getTask()[ch - 1] == null) {
+                        if (ch - 1 > currentUser.getTask().size()) {
                             throw new Exception();
                         }
                         System.out.print("Description :");
-                        System.out.println(currentUser.getTask()[ch-1].getDescription());
+                        System.out.println(currentUser.getTask().get(ch-1).getDescription());
                         System.out.print("Status :");
-                        System.out.println(currentUser.getTask()[ch-1].getStatus());
+                        System.out.println(currentUser.getTask().get(ch-1).getStatus());
 
                         boolean validInput = false;
                         while (!validInput) {
@@ -136,7 +114,7 @@ public class TaskManager implements TaskManagerInterface{
                                 if (updateChoice.equals("exit")) {
                                     throw new Exception();
                                 }
-                                currentUser.getTask()[ch - 1].setDescription(updateChoice);
+                                currentUser.getTask().get(ch-1).setDescription(updateChoice);
                                 validInput = true;
                                 System.out.println("Description Updated Successfully");
                             } else if (choiceType == 2) {
@@ -147,13 +125,13 @@ public class TaskManager implements TaskManagerInterface{
                                 updateChoice = sc.nextLine();
                                 Integer chStatus = new Integer(updateChoice);
                                 if (chStatus == 1) {
-                                    currentUser.getTask()[ch - 1].setStatus("TODO");
+                                    currentUser.getTask().get(ch-1).setStatus("TODO");
                                     validInput = true;
                                 } else if (chStatus == 2) {
-                                    currentUser.getTask()[ch - 1].setStatus("IN_PROGRESS");
+                                    currentUser.getTask().get(ch-1).setStatus("IN_PROGRESS");
                                     validInput = true;
                                 } else if (chStatus == 3) {
-                                    currentUser.getTask()[ch - 1].setStatus("DONE");
+                                    currentUser.getTask().get(ch-1).setStatus("DONE");
                                     validInput = true;
                                 } else {
                                     System.out.println("Invalid Input");
@@ -169,7 +147,7 @@ public class TaskManager implements TaskManagerInterface{
                                 if (updateChoice.equals("exit")) {
                                     throw new Exception();
                                 }
-                                currentUser.getTask()[ch - 1].setTitle(updateChoice);
+                                currentUser.getTask().get(ch-1).setTitle(updateChoice);
                                 validInput = true;
                                 System.out.print("Title Edited Successfully");
                             } else {
@@ -257,12 +235,12 @@ public class TaskManager implements TaskManagerInterface{
                     try {
                         System.out.println("Enter Choice for Delete ");
                         deleteChoice = sc.nextLine();
-                        Integer ch = new Integer(deleteChoice);
-                        if(currentUser.getTask()[ch-1]==null)
+                        if(deleteChoice.equals("exit"))
                         {
                             throw new Exception();
                         }
-                        currentUser.getTask()[ch - 1] = null;
+                        Integer ch = new Integer(deleteChoice);
+                        currentUser.getTask().remove(ch-1);
                         validInput=true;
                         System.out.print("Task Deleted Successfully");
                     } catch (Exception e) {
@@ -275,19 +253,6 @@ public class TaskManager implements TaskManagerInterface{
                         }
                     }
                 }
-                for (int i = 0; i < currentUser.getTask().length; i++) {
-                    if (currentUser.getTask()[i] != null) {
-                        continue;
-                    }
-                    for (int j = i + 1; j < currentUser.getTask().length; j++) {
-                        if (currentUser.getTask()[j] != null) {
-                            currentUser.getTask()[i] = currentUser.getTask()[j];
-                            currentUser.getTask()[j] = null;
-                            break;
-                        }
-                    }
-                }
-
             }
         }
     }
